@@ -16,7 +16,7 @@ Implementations for the (L - 1)-WIS edge sparsification algorithm and its effici
   <img src="figs/edge_sparse_promo.png" alt="" width="225"/>
 </p>
 
-## Install Requirements
+## Installing Requirements
 
 Tested with python 3.8.
 - Install PyTorch from the [official website](https://pytorch.org/) (tested with version 1.11.0), including ```torchvision```.
