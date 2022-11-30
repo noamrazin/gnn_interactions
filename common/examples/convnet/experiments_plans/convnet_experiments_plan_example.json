@@ -1,0 +1,60 @@
+{
+  "name": "simple convnet example plan",
+  "description": "",
+  "skip": 0,
+  "repetitions": 1,
+  "largest": true,
+  "multiprocess": false,
+  "num_parallel": 1,
+  "gpu_ids_pool": [],
+  "configurations": [
+    {
+      "base_config": {
+        "experiment_name": "{dataset}_{model}_lr_{lr}",
+        "random_seed": -1,
+        "gpu_ids": [],
+        "trainer_checkpoint": "",
+        "epochs": 100,
+        "validate_every": 1,
+        "use_test_dataset": false,
+        "outputs_dir": "outputs/exps",
+        "disable_console_log": true,
+        "save_logs": true,
+        "train_batch_log_interval": 50,
+        "epoch_log_interval": 1,
+        "save_metric_plots": true,
+        "save_every_num_val": 1,
+        "use_tensorboard": false,
+        "use_wandb": false,
+        "wandb_resume_path": "",
+        "wandb_project_name": "simple_convnet_example",
+        "wandb_entity_name": "",
+        "wandb_track_model": null,
+        "wandb_exclude_files": [
+          "plots/**"
+        ],
+        "score_metric_name": "val accuracy",
+        "is_train_metric": false,
+        "score_largest": true,
+        "return_best_score": false,
+        "save_checkpoints": true,
+        "num_checkpoints": 1,
+        "save_checkpoints_by_score": false,
+        "early_stop": false,
+        "early_stop_min_delta": 0,
+        "early_stop_patience": 0,
+        "early_stop_cooldown": 0,
+        "dataset": "mnist",
+        "model": "simple_conv",
+        "num_train_samples": -1,
+        "batch_size": 64,
+        "dataloader_num_workers": 0,
+        "optimizer": "adam",
+        "lr": 0.001,
+        "momentum": 0,
+        "weight_decay": 0.0001
+      },
+      "options": {}
+    }
+  ]
+}

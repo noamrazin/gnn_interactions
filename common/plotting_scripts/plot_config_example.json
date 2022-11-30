@@ -1,0 +1,41 @@
+{
+  "ax_configs": [
+    {
+      "experiment_configs": [
+        {
+          "checkpoint_path": "",
+          "metric_names": [],
+          "labels": null,
+          "colors": "summer",
+          "linestyles": null
+        }
+      ],
+      "start_iter": 0,
+      "max_iter": -1,
+      "min_loss": null,
+      "loss_metric_name": "",
+      "title": "example title",
+      "y_label": "y",
+      "y_top_lim": null,
+      "y_bottom_lim": null,
+      "y_ticks": null,
+      "y_ticks_labels": null,
+      "x_label": "x",
+      "x_ticks": null,
+      "x_ticks_labels": null,
+      "x_tight": true,
+      "plot_linewidth": 1.5,
+      "title_font_size": 12,
+      "y_label_font_size": 11,
+      "x_label_font_size": 11,
+      "ticks_font_size": 9,
+      "legend_font_size": 10
+    }
+  ],
+  "title": "",
+  "title_font_size": 13,
+  "subplot_width": 3,
+  "subplot_height": 2,
+  "pad_width": null,
+  "save_plot_to": ""
+}

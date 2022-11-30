@@ -1,0 +1,134 @@
+{
+  "name": "GraphIsSameClass experiments plan example",
+  "description": "",
+  "skip": 0,
+  "repetitions": 5,
+  "largest": true,
+  "multiprocess": false,
+  "num_parallel": 1,
+  "gpu_ids_pool": [],
+  "configurations": [
+    {
+      "base_config": {
+        "experiment_name": "gisc_{partition_type}_{model}_layers_{num_layers}_d_{hidden_dim}_lr_{lr}",
+        "random_seed": -1,
+        "gpu_ids": [],
+        "trainer_checkpoint": "",
+        "epochs": 10000,
+        "validate_every": 1,
+        "use_test_dataset": true,
+        "outputs_dir": "outputs/gisc",
+        "disable_console_log": true,
+        "save_logs": true,
+        "train_batch_log_interval": 50,
+        "epoch_log_interval": 1,
+        "save_metric_plots": false,
+        "save_every_num_val": 1,
+        "use_tensorboard": false,
+        "use_wandb": false,
+        "wandb_project_name": "gisc",
+        "wandb_entity_name": "",
+        "wandb_resume_path": "",
+        "wandb_track_model": null,
+        "wandb_exclude_files": [
+          "plots/**"
+        ],
+        "score_metric_name": "train accuracy",
+        "is_train_metric": true,
+        "score_largest": true,
+        "return_best_score": false,
+        "save_checkpoints": false,
+        "num_checkpoints": 1,
+        "save_checkpoints_by_score": false,
+        "early_stop": true,
+        "early_stop_min_delta": 0.0001,
+        "early_stop_patience": 1000,
+        "early_stop_cooldown": 0,
+        "dataset_path": "",
+        "num_train_samples": -1,
+        "model": "GCN",
+        "hidden_dim": 16,
+        "num_layers": 3,
+        "use_layer_norm": true,
+        "partition_type": "low_walk",
+        "load_dataset_to_gpu": false,
+        "dataloader_num_workers": 0,
+        "batch_size": -1,
+        "accum_grad": 1,
+        "optimizer": "adam",
+        "lr": 0.005,
+        "momentum": 0,
+        "weight_decay": 0
+      },
+      "options": {
+        "model": [
+          "GCN",
+          "GAT"
+        ],
+        "partition_type": [
+          "low_walk",
+          "high_walk"
+        ]
+      }
+    },
+    {
+      "base_config": {
+        "experiment_name": "gisc_{partition_type}_{model}_layers_{num_layers}_d_{hidden_dim}_lr_{lr}",
+        "random_seed": -1,
+        "gpu_ids": [],
+        "trainer_checkpoint": "",
+        "epochs": 10000,
+        "validate_every": 1,
+        "use_test_dataset": true,
+        "outputs_dir": "outputs/gisc",
+        "disable_console_log": true,
+        "save_logs": true,
+        "train_batch_log_interval": 50,
+        "epoch_log_interval": 1,
+        "save_metric_plots": false,
+        "save_every_num_val": 1,
+        "use_tensorboard": false,
+        "use_wandb": false,
+        "wandb_project_name": "gisc",
+        "wandb_entity_name": "",
+        "wandb_resume_path": "",
+        "wandb_track_model": null,
+        "wandb_exclude_files": [
+          "plots/**"
+        ],
+        "score_metric_name": "train accuracy",
+        "is_train_metric": true,
+        "score_largest": true,
+        "return_best_score": false,
+        "save_checkpoints": false,
+        "num_checkpoints": 1,
+        "save_checkpoints_by_score": false,
+        "early_stop": true,
+        "early_stop_min_delta": 0.0001,
+        "early_stop_patience": 1000,
+        "early_stop_cooldown": 0,
+        "dataset_path": "",
+        "num_train_samples": -1,
+        "model": "GIN",
+        "hidden_dim": 16,
+        "num_layers": 3,
+        "use_layer_norm": true,
+        "partition_type": "low_walk",
+        "load_dataset_to_gpu": false,
+        "dataloader_num_workers": 0,
+        "batch_size": -1,
+        "accum_grad": 1,
+        "optimizer": "adam",
+        "lr": 0.01,
+        "momentum": 0,
+        "weight_decay": 0
+      },
+      "options": {
+        "partition_type": [
+          "low_walk",
+          "high_walk"
+        ]
+      }
+    }
+  ]
+}

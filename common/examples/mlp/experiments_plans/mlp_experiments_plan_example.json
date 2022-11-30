@@ -1,0 +1,111 @@
+{
+  "name": "mlp example plan",
+  "description": "",
+  "skip": 0,
+  "repetitions": 1,
+  "largest": true,
+  "multiprocess": false,
+  "num_parallel": 1,
+  "gpu_ids_pool": [],
+  "configurations": [
+    {
+      "base_config": {
+        "experiment_name": "mlp_mnist_lr_{lr}",
+        "random_seed": -1,
+        "gpu_ids": [],
+        "trainer_checkpoint": "",
+        "epochs": 15,
+        "validate_every": 1,
+        "use_test_dataset": false,
+        "outputs_dir": "outputs/exps",
+        "disable_console_log": true,
+        "save_logs": true,
+        "train_batch_log_interval": 50,
+        "epoch_log_interval": 1,
+        "save_metric_plots": true,
+        "save_every_num_val": 1,
+        "use_tensorboard": false,
+        "use_wandb": false,
+        "wandb_project_name": "mlp_example",
+        "wandb_entity_name": "",
+        "wandb_resume_path": "",
+        "wandb_track_model": null,
+        "wandb_exclude_files": [
+          "plots/**"
+        ],
+        "score_metric_name": "val accuracy",
+        "is_train_metric": false,
+        "score_largest": true,
+        "return_best_score": false,
+        "save_checkpoints": false,
+        "num_checkpoints": 1,
+        "save_checkpoints_by_score": false,
+        "early_stop": false,
+        "early_stop_min_delta": 0,
+        "early_stop_patience": 0,
+        "early_stop_cooldown": 0,
+        "dataset": "mnist",
+        "hidden_layer_sizes": [
+          64
+        ],
+        "batch_size": 64,
+        "dataloader_num_workers": 0,
+        "lr": 0.001,
+        "weight_decay": 0
+      },
+      "options": {
+        "lr": [
+          0.01,
+          0.001
+        ]
+      }
+    },
+    {
+      "base_config": {
+        "experiment_name": "mlp_cifar10",
+        "random_seed": -1,
+        "gpu_ids": [],
+        "trainer_checkpoint": ""
+        "epochs": 15,
+        "validate_every": 1,
+        "use_test_dataset": false,
+        "outputs_dir": "outputs/exps",
+        "disable_console_log": true,
+        "save_logs": true,
+        "train_batch_log_interval": 50,
+        "epoch_log_interval": 1,
+        "save_metric_plots": true,
+        "save_every_num_val": 1,
+        "use_tensorboard": false,
+        "use_wandb": false,
+        "wandb_project_name": "mlp_example",
+        "wandb_entity_name": "",
+        "wandb_resume_path": "",
+        "wandb_track_model": null,
+        "wandb_exclude_files": [
+          "plots/**"
+        ],
+        "score_metric_name": "val accuracy",
+        "is_train_metric": false,
+        "score_largest": true,
+        "return_best_score": false,
+        "save_checkpoints": false,
+        "num_checkpoints": 1,
+        "save_checkpoints_by_score": false,
+        "early_stop": false,
+        "early_stop_min_delta": 0,
+        "early_stop_patience": 0,
+        "early_stop_cooldown": 0,
+        "dataset": "cifar10",
+        "hidden_layer_sizes": [
+          64
+        ],
+        "batch_size": 64,
+        "dataloader_num_workers": 0,
+        "lr": 0.001,
+        "weight_decay": 0
+      },
+      "options": {}
+    }
+  ]
+}
