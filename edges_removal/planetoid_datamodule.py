@@ -9,10 +9,11 @@ from common.data.modules.datamodule import DataModule
 
 DATA_DOWNLOAD_FOLDER = './data'
 
+
 class PlanetoidDataModule(DataModule):
 
-    def __init__(self, dataset_name: str, train_fraction: float, val_fraction: float, batch_size: int, dataloader_num_workers: int = 0, load_dataset_to_device=None,
-                 train_frac_seed: float = 0, edges_ratio: float = 1, edges_remove_conf_file: str = ''):
+    def __init__(self, dataset_name: str, train_fraction: float, val_fraction: float, batch_size: int, dataloader_num_workers: int = 0,
+                 load_dataset_to_device=None, train_frac_seed: float = 0, edges_ratio: float = 1, edges_remove_conf_file: str = ''):
         self.train_fraction = train_fraction
         self.batch_size = batch_size
         self.dataloader_num_workers = dataloader_num_workers
@@ -29,7 +30,8 @@ class PlanetoidDataModule(DataModule):
         self.num_vertices = self.train_dataset.data.x.shape[0]
 
         if train_fraction != -1:
-            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data['test_mask'] = self.generate_train_mask(train_frac_seed, train_fraction, val_fraction, self.num_vertices)
+            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data[
+                'test_mask'] = self.generate_train_mask(train_frac_seed, train_fraction, val_fraction, self.num_vertices)
 
         self.rearrange_edges(edges_ratio, edges_remove_conf_file)
 
@@ -46,7 +48,7 @@ class PlanetoidDataModule(DataModule):
         self.test_data.y[torch.logical_not(self.test_data.test_mask)] = -1
 
         if self.load_dataset_to_device is not None:
-            self.train_dataset.data = self.train_dataset.data = self.train_dataset.data.to(self.load_dataset_to_device)
+            self.train_dataset.data = self.train_dataset.data.to(self.load_dataset_to_device)
             self.val_data = self.val_data.to(self.load_dataset_to_device)
             self.test_data = self.test_data.to(self.load_dataset_to_device)
 
@@ -65,7 +67,6 @@ class PlanetoidDataModule(DataModule):
 
         self.train_dataset.data.edge_stores[0]['edge_index'] = edges
         self.base_num_edges = edges.shape[-1]
-
 
         self.removed_edges = [[], []]
         if edges_ratio == 0:
@@ -88,7 +89,6 @@ class PlanetoidDataModule(DataModule):
 
             self.train_dataset.data.edge_stores[0]['edge_index'] = left_edges
 
-
         self.undirected_edges = torch.unique(torch.sort(self.train_dataset.data.edge_stores[0]['edge_index'], axis=0)[0], dim=1)
         # reorder all edges such that [all_edges_one_directions, all_edges_on_the_other_direction]
         if self.undirected_edges.shape[0] != 0:
@@ -108,7 +108,7 @@ class PlanetoidDataModule(DataModule):
 
         train_indices = vertices_indices[:train_num]
         val_indices = vertices_indices[train_num: train_num + val_num]
-        test_indices = vertices_indices[train_num + val_num: ]
+        test_indices = vertices_indices[train_num + val_num:]
 
         train_mask = torch.zeros(num_vertices, dtype=bool)
         train_mask[train_indices] = True
