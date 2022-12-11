@@ -10,7 +10,6 @@ import json
 import common.utils.module as module_utils
 import numpy as np
 import sklearn
-from ogb.nodeproppred import PygNodePropPredDataset
 from edges_removal.walk_index_sparsification import WalkIndexSparsifier, EfficientOneWalkIndexSparsifier
 
 OUTPUT_SUFFIX = '.json'
@@ -23,6 +22,7 @@ def read_edges_and_num_vertices(dataset_name):
     elif dataset_name == "dblp":
         dataset = torch_geometric.datasets.CitationFull(DATASETS_FOLDER, "dblp")
     elif dataset_name == "ogbn-arxiv":
+        from ogb.nodeproppred import PygNodePropPredDataset
         dataset = PygNodePropPredDataset(dataset_name, DATASETS_FOLDER)
     else:
         raise ValueError("Unknown dataset")
