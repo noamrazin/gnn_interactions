@@ -25,15 +25,21 @@ class PlanetoidDataModule(DataModule):
             self.train_dataset = torch_geometric.datasets.Planetoid(DATA_DOWNLOAD_FOLDER, dataset_name, split='public')
         elif dataset_name in ['dblp', 'cora_ml']:
             self.train_dataset = torch_geometric.datasets.CitationFull(DATA_DOWNLOAD_FOLDER, dataset_name)
+        elif dataset_name in ['ogbn-arxiv']:
+            import sklearn
+            from ogb.nodeproppred import PygNodePropPredDataset
+            self.train_dataset = PygNodePropPredDataset(dataset_name, DATA_DOWNLOAD_FOLDER)
         else:
             raise ValueError("Unknown dataset")
         self.num_vertices = self.train_dataset.data.x.shape[0]
 
         if train_fraction != -1:
-            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data[
-                'test_mask'] = self.generate_train_mask(train_frac_seed, train_fraction, val_fraction, self.num_vertices)
+            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data['test_mask'] = self.generate_train_mask(train_frac_seed, train_fraction, val_fraction, self.num_vertices)
+        elif dataset_name == 'ogbn-arxiv':
+            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data['test_mask'] = self.generate_train_mask_by_year(2017, 2018, self.train_dataset.data.node_year)
 
-        self.rearrange_edges(edges_ratio, edges_remove_conf_file)
+
+        self.rearrange_edges(edges_ratio, edges_remove_conf_file, device=load_dataset_to_device)
 
         data = self.train_dataset.data
         self.dim0 = data.x.shape[1]
@@ -47,6 +53,10 @@ class PlanetoidDataModule(DataModule):
         self.val_data.y[torch.logical_not(self.val_data.val_mask)] = -1
         self.test_data.y[torch.logical_not(self.test_data.test_mask)] = -1
 
+        self.train_dataset.data.y = self.train_dataset.data.y.flatten()
+        self.val_data.y = self.val_data.y.flatten()
+        self.test_data.y = self.test_data.y.flatten()
+
         if self.load_dataset_to_device is not None:
             self.train_dataset.data = self.train_dataset.data.to(self.load_dataset_to_device)
             self.val_data = self.val_data.to(self.load_dataset_to_device)
@@ -55,7 +65,7 @@ class PlanetoidDataModule(DataModule):
     def setup(self):
         pass
 
-    def rearrange_edges(self, edges_ratio, edges_remove_conf_file):
+    def rearrange_edges(self, edges_ratio, edges_remove_conf_file, device=None):
         edges = self.train_dataset.data.edge_stores[0]['edge_index']
         edges = torch_geometric.utils.remove_self_loops(edges)[0]
         edges = torch_geometric.utils.to_undirected(edges)
@@ -83,7 +93,13 @@ class PlanetoidDataModule(DataModule):
             removed_edges = torch.Tensor(remove_conf['removed_edges'])[:, :edges_to_remove]
             removed_edges = torch.concat([removed_edges, torch.stack([removed_edges[1], removed_edges[0]])],
                                          axis=1)
-            mask_to_remove = torch.any(torch.all(all_edges[:, None, :] == removed_edges[:, :, None], axis=0), axis=0)
+            removed_edges = removed_edges.cuda(device)
+            all_edges_gpu = all_edges.cuda(device)
+            mask_to_remove = torch.zeros(all_edges.shape[1], dtype=bool).cuda(device)
+            for i in range(removed_edges.shape[1]):
+                removed_edge_i_mask = torch.all(removed_edges[:,i:i+1] == all_edges_gpu, axis=0)
+                mask_to_remove = torch.logical_or(mask_to_remove, removed_edge_i_mask)
+            mask_to_remove = mask_to_remove.cpu()
 
             left_edges = all_edges[:, ~mask_to_remove]
 
@@ -95,6 +111,12 @@ class PlanetoidDataModule(DataModule):
             self.train_dataset.data.edge_stores[0]['edge_index'] = torch.concat([self.undirected_edges,
                                                                                  torch.stack([self.undirected_edges[1], self.undirected_edges[0]])],
                                                                                 axis=1)
+
+    def generate_train_mask_by_year(self, train_max_year, val_max_year, years):
+        train_mask = years <= train_max_year
+        val_mask = torch.logical_and(years <= val_max_year, years > train_max_year)
+        test_mask = years > val_max_year
+        return train_mask, val_mask, test_mask
 
     def generate_train_mask(self, train_frac_seed, train_fraction, val_fraction, num_vertices):
         train_num = int(train_fraction * num_vertices)

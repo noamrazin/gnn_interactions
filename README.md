@@ -26,6 +26,11 @@ Tested with python 3.8.
 pip install -r requirements.txt
 ```
 
+For experiments with the OGBN-ArXiv dataset:
+- Install the OGB library from the [official website](https://ogb.stanford.edu/).
+- Install [Julia](https://julialang.org/) for running the spectral sparsification algorithm from [Spielman & Srivastava 2011](https://arxiv.org/abs/0803.0929) (tested with version 1.8.3).
+
+
 ## 1. Empirical Demonstration of Theoretical Analysis
 
 
@@ -61,6 +66,7 @@ The following commands produce files with edge removal orders for the specified 
 ```
 python ./edges_removal/call_removal_scripts.py --dataset cora --output_folder ./outputs/cora/ --gpu_id 0 random spectral wis one_wis
 python ./edges_removal/call_removal_scripts.py --dataset dblp --output_folder ./outputs/dblp/ random spectral one_wis 
+python ./edges_removal/call_removal_scripts.py --dataset ogbn-arxiv --output_folder ./outputs/ogbn-arxiv/ random spectral one_wis --julia_spectral
 ```
 - Supported algorithms are random pruning ("random"), the spectral sparsification algorithm from [Spielman & Srivastava 2011](https://arxiv.org/abs/0803.0929) ("spectral"), (L - 1)-WIS ("wis") and 1-WIS ("one_wis"). The L used for (L - 1)-WIS is determined by the ```gnn_depth``` argument (default is 3).
 - The ```gpu_id``` parameter specifies an available GPU to use for speeding up (L - 1)-WIS, otherwise CPU is used.
@@ -72,6 +78,7 @@ The following commands create the edge removal orders, per dataset, for a varian
 ```
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/cora_ugs_mask_generation_config.json
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/dblp_ugs_mask_generation_config.json
+python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/arxiv_ugs_mask_generation_config.json
 ```
 - The ```plan_config_path``` argument points to a configuration file with relevant hyperparameters, which are documented in ```common/experiment/fit_experiment_base.py``` and ```edges_removal/edges_removal_experiment.py```.
 - Creates ten removal orders for each dataset.
@@ -82,6 +89,7 @@ The following commands train and evaluate graph neural networks over the Cora an
 ```
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/cora_removal_experiments_config.json
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/dblp_removal_experiments_config.json
+python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/arxiv_removal_experiments_config.json
 ```
 
 - The ```plan_config_path``` argument points to a configuration file with relevant hyperparameters, which are documented in ```common/experiment/fit_experiment_base.py``` and ```edges_removal/edges_removal_experiment.py```.
@@ -92,13 +100,14 @@ The following commands produce plots of the mean test accuracy across different 
 ```
 python ./edges_removal/analyze_experiments_summary.py ./outputs/cora/ ./outputs/plots/
 python ./edges_removal/analyze_experiments_summary.py ./outputs/dblp/ ./outputs/plots/
+python ./edges_removal/analyze_experiments_summary.py ./outputs/ogbn-arxiv/ ./outputs/plots/
 ```
 The first argument specifies the directory from which to read the results from, and the second specifies the output folder for the plots.
 
 Example plots:
 
 <p align="center">
-  <img src="figs/edge_sparse_gcn.png" alt="" width="700"/>
+  <img src="figs/edge_sparse_gcn.png" alt="" width="800"/>
 </p>
 
 ## Citation

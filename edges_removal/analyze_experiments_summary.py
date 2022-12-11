@@ -14,7 +14,8 @@ ALGS_NAMES = ['random', 'spectral', 'UGS', '2-WIS (ours)', '1-WIS (ours)']
 COLORS = ['#EC5809', '#B85194', '#5B8F53', '#3F74CA', '#023A8D']
 MARKERS = ["d", "o", "X", "^", "v", "s", "h", "1", "<", "*"]
 LABELS_SIZE = 12
-EXPERIMENTS_REGEX = r'([a-z]+)_([a-zA-Z]+)_layers\d*_d\d*_edges_ratio_([.0-9\-]*)_.*iter(\d*)_([a-z_]+)_(pid.*|[0-9_]+)'
+EXPERIMENTS_REGEX = r'([a-z\-]+)_([a-zA-Z]+)_layers\d*_d\d*_edges_ratio_([.0-9\-]*)_.*iter(\d*)_([a-z_]+)_(pid.*|[0-9_]+)'
+TITLE = None
 
 
 def capital_title(s):
@@ -76,7 +77,7 @@ def main(data_folder, output_folder):
                      alpha=0.2)
 
 
-    plt.title(f'{capital_title(dataset)} ({model})')
+    plt.title(f'{capital_title(dataset)} ({model})' if not TITLE else TITLE)
     plt.xlabel('% of removed edges', fontsize=LABELS_SIZE)
     plt.ylabel('test accuracy (%)', fontsize=LABELS_SIZE)
     plt.legend()
