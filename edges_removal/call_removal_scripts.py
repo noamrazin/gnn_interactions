@@ -64,7 +64,7 @@ def main():
     args = parser.parse_args()
 
     if not os.path.exists(args.output_folder):
-        os.mkdir(args.output_folder)
+        os.makedirs(args.output_folder)
 
     run_random_pruning_algs(args.dataset, args.algs, args.repetitions, args.output_folder)
     run_spectral_pruning_algs(args.dataset, args.algs, args.repetitions, args.output_folder, args.julia_spectral)
