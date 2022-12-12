@@ -66,7 +66,7 @@ The following commands produce files with edge removal orders for the specified 
 ```
 python ./edges_removal/call_removal_scripts.py --dataset cora --output_folder ./outputs/cora/ --gpu_id 0 random spectral wis one_wis
 python ./edges_removal/call_removal_scripts.py --dataset dblp --output_folder ./outputs/dblp/ random spectral one_wis 
-python ./edges_removal/call_removal_scripts.py --dataset ogbn-arxiv --output_folder ./outputs/ogbn-arxiv/ random spectral one_wis --julia_spectral
+python ./edges_removal/call_removal_scripts.py --dataset ogbn-arxiv --output_folder ./outputs/ogbn-arxiv/ --gpu_id 0 --julia_spectral random spectral one_wis
 ```
 - Supported algorithms are random pruning ("random"), the spectral sparsification algorithm from [Spielman & Srivastava 2011](https://arxiv.org/abs/0803.0929) ("spectral"), (L - 1)-WIS ("wis") and 1-WIS ("one_wis"). The L used for (L - 1)-WIS is determined by the ```gnn_depth``` argument (default is 3).
 - The ```gpu_id``` parameter specifies an available GPU to use for speeding up (L - 1)-WIS, otherwise CPU is used.

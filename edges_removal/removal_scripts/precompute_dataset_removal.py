@@ -40,7 +40,7 @@ def find_undirected_edges_removal(num_vertices, edge_index, wis_chunk_size, gnn_
     if edge_prune_method == "wis":
         return find_edges_removal_by_wis(num_vertices, edge_index, wis_chunk_size, gnn_depth, device=device)
     elif edge_prune_method == "one_wis":
-        return find_edges_removal_by_efficient_one_wis(num_vertices, edge_index)
+        return find_edges_removal_by_efficient_one_wis(num_vertices, edge_index, device=device)
     elif edge_prune_method == "random":
         return find_random_edges_removal(edge_index)
     elif edge_prune_method == "spectral":
@@ -60,13 +60,13 @@ def find_edges_removal_by_wis(num_vertices, edge_index, chunk_size, gnn_depth, d
     return removed_edges.tolist()
 
 
-def find_edges_removal_by_efficient_one_wis(num_vertices, edge_index):
+def find_edges_removal_by_efficient_one_wis(num_vertices, edge_index, device=torch.device("cpu")):
     """
     Remove edges according to 1-WIS (efficient implementation).
     """
     one_wis = EfficientOneWalkIndexSparsifier()
     num_undirected_edges = edge_index.shape[1] // 2
-    _, removed_edges, _ = one_wis.sparsify(num_vertices, edge_index, num_edges_to_remove=num_undirected_edges, print_progress=True)
+    _, removed_edges, _ = one_wis.sparsify(num_vertices, edge_index, num_edges_to_remove=num_undirected_edges, print_progress=True, device=device)
     return removed_edges.tolist()
 
 
