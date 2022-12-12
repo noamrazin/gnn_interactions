@@ -6,6 +6,7 @@ end
 using Pkg
 Pkg.add("CSV")
 Pkg.add("Laplacians")
+Pkg.add("Graphs")
 
 using CSV
 using Graphs
