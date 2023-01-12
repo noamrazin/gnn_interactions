@@ -97,7 +97,6 @@ class WalkIndexSparsifier:
         @param edge_index: Tensor of shape (2, num_edges) describing the graph edges according to PyTorch Geometric format (first row is source and
         second row is target).
         @param num_edges_to_remove: Number of edges to remove.
-        edges (uses less memory).
         @param undirected: Whether to treat edges as undirected or not.
         @param device: PyTorch device to use.
         @param print_progress: Whether to print iteration of edge removal progress.
@@ -170,7 +169,6 @@ class EfficientOneWalkIndexSparsifier:
         @param edge_index: Tensor of shape (2, num_edges) describing the graph edges according to PyTorch Geometric format (first row is source and
         second row is target).
         @param num_edges_to_remove: Number of edges to remove.
-        edges (uses less memory).
         @param undirected: Whether to treat edges as undirected or not.
         @param device: PyTorch device to use.
         @param print_progress: Whether to print iteration of edge removal progress.
