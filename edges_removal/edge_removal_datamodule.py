@@ -10,7 +10,7 @@ from common.data.modules.datamodule import DataModule
 DATA_DOWNLOAD_FOLDER = './data'
 
 
-class PlanetoidDataModule(DataModule):
+class EdgeRemovalDataModule(DataModule):
 
     def __init__(self, dataset_name: str, train_fraction: float, val_fraction: float, batch_size: int, dataloader_num_workers: int = 0,
                  load_dataset_to_device=None, train_frac_seed: float = 0, edges_ratio: float = 1, edges_remove_conf_file: str = ''):

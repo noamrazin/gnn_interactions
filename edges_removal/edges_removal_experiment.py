@@ -16,7 +16,7 @@ from common.train.callbacks import Callback
 from common.train.fit_output import FitOutput
 from common.train.trainer import Trainer
 from edges_removal.graph_model import GraphModel
-from edges_removal.planetoid_datamodule import PlanetoidDataModule
+from edges_removal.edge_removal_datamodule import EdgeRemovalDataModule
 from edges_removal.utils import GNN_TYPE
 from evaluation.torch_geometric_supervised_evaluator import TorchGeometricSupervisedValidationEvaluator, \
     TorchGeometricSupervisedTrainEvaluator
@@ -55,19 +55,19 @@ class EdgesRemovalExperiment(FitExperimentBase):
 
     def create_datamodule(self, config: dict, state: dict, logger: logging.Logger) -> DataModule:
         load_dataset_to_device = state["device"] if config["load_dataset_to_gpu"] and len(state["gpu_ids"]) > 0 else None
-        datamodule = PlanetoidDataModule(dataset_name=config["dataset_name"],
-                                         train_fraction=config["train_fraction"],
-                                         val_fraction=config["val_fraction"],
-                                         batch_size=config["batch_size"],
-                                         dataloader_num_workers=config["dataloader_num_workers"],
-                                         train_frac_seed=config['train_fraction_seed'],
-                                         edges_ratio=config["edges_ratio"],
-                                         edges_remove_conf_file=config["edges_removal_conf"],
-                                         load_dataset_to_device=load_dataset_to_device)
+        datamodule = EdgeRemovalDataModule(dataset_name=config["dataset_name"],
+                                           train_fraction=config["train_fraction"],
+                                           val_fraction=config["val_fraction"],
+                                           batch_size=config["batch_size"],
+                                           dataloader_num_workers=config["dataloader_num_workers"],
+                                           train_frac_seed=config['train_fraction_seed'],
+                                           edges_ratio=config["edges_ratio"],
+                                           edges_remove_conf_file=config["edges_removal_conf"],
+                                           load_dataset_to_device=load_dataset_to_device)
         datamodule.setup()
         return datamodule
 
-    def create_model(self, datamodule: PlanetoidDataModule, config: dict, state: dict, logger: logging.Logger) -> nn.Module:
+    def create_model(self, datamodule: EdgeRemovalDataModule, config: dict, state: dict, logger: logging.Logger) -> nn.Module:
         num_layers = config["num_layers"]
         gnn_type = GNN_TYPE.from_string(config["model"])
         init_path = config['model_initialization_path'] if 'model_initialization_path' in config else None
@@ -78,7 +78,7 @@ class EdgesRemovalExperiment(FitExperimentBase):
                            model_initialization_path=init_path)
         return model
 
-    def create_train_and_validation_evaluators(self, model: nn.Module, datamodule: PlanetoidDataModule,
+    def create_train_and_validation_evaluators(self, model: nn.Module, datamodule: EdgeRemovalDataModule,
                                                val_dataloader: torch.utils.data.DataLoader, device, config: dict, state: dict,
                                                logger: logging.Logger) -> Tuple[TrainEvaluator, Evaluator]:
         train_metric_info_seq = [
@@ -107,7 +107,7 @@ class EdgesRemovalExperiment(FitExperimentBase):
     def get_default_score_info(self, config: dict, state: dict) -> ScoreInfo:
         return ScoreInfo(metric_name="train accuracy", is_train_metric=False, largest=True, return_best_score=False)
 
-    def create_additional_metadata_to_log(self, model: nn.Module, datamodule: PlanetoidDataModule, config: dict, state: dict,
+    def create_additional_metadata_to_log(self, model: nn.Module, datamodule: EdgeRemovalDataModule, config: dict, state: dict,
                                           logger: logging.Logger) -> dict:
         additional_metadata = super().create_additional_metadata_to_log(model, datamodule, config, state, logger)
         additional_metadata["input dim"] = datamodule.dim0
@@ -117,7 +117,7 @@ class EdgesRemovalExperiment(FitExperimentBase):
         additional_metadata["test dataset size"] = len(((datamodule.test_data.y >= 0).nonzero()))
         return additional_metadata
 
-    def create_trainer(self, model: nn.Module, datamodule: PlanetoidDataModule, train_evaluator: TrainEvaluator, val_evaluator: Evaluator,
+    def create_trainer(self, model: nn.Module, datamodule: EdgeRemovalDataModule, train_evaluator: TrainEvaluator, val_evaluator: Evaluator,
                        callback: Callback, device, config: dict, state: dict, logger: logging.Logger) -> Trainer:
         if config['is_ugs_mask_train']:
             reg_fn = ugs_utils.L1MaskRegulazation(config['ugs_s1'])
