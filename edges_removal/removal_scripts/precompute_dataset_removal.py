@@ -9,7 +9,6 @@ import torch
 import json
 import common.utils.module as module_utils
 import numpy as np
-import sklearn
 from edges_removal.walk_index_sparsification import WalkIndexSparsifier, EfficientOneWalkIndexSparsifier
 
 OUTPUT_SUFFIX = '.json'
@@ -17,10 +16,14 @@ DATASETS_FOLDER = './data/'
 
 
 def read_edges_and_num_vertices(dataset_name):
-    if dataset_name == "cora":
-        dataset = torch_geometric.datasets.Planetoid(DATASETS_FOLDER, "cora")
-    elif dataset_name == "dblp":
-        dataset = torch_geometric.datasets.CitationFull(DATASETS_FOLDER, "dblp")
+    if dataset_name == 'cora':
+        dataset = torch_geometric.datasets.Planetoid(DATASETS_FOLDER, dataset_name)
+    elif dataset_name in 'dblp':
+        dataset = torch_geometric.datasets.CitationFull(DATASETS_FOLDER, dataset_name)
+    elif dataset_name in ['chameleon', 'squirrel']:
+        dataset = torch_geometric.datasets.WikipediaNetwork(DATASETS_FOLDER, dataset_name)
+    elif dataset_name == 'Computers':
+        dataset = torch_geometric.datasets.Amazon(DATASETS_FOLDER, dataset_name)
     elif dataset_name == "ogbn-arxiv":
         from ogb.nodeproppred import PygNodePropPredDataset
         dataset = PygNodePropPredDataset(dataset_name, DATASETS_FOLDER)
@@ -119,7 +122,7 @@ def main():
 
     edge_index, num_vertices = read_edges_and_num_vertices(args.dataset)
     removed_edges = find_undirected_edges_removal(num_vertices, edge_index, args.wis_chunk_size, args.gnn_depth, args.edge_prune_method,
-                                                    args.gpu_id)
+                                                  args.gpu_id)
 
     output_data = {
         'dataset': args.dataset,

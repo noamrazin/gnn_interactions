@@ -14,7 +14,7 @@ ALGS_NAMES = ['random', 'spectral', 'UGS', '2-WIS (ours)', '1-WIS (ours)']
 COLORS = ['#EC5809', '#B85194', '#5B8F53', '#3F74CA', '#023A8D']
 MARKERS = ["d", "o", "X", "^", "v", "s", "h", "1", "<", "*"]
 LABELS_SIZE = 12
-EXPERIMENTS_REGEX = r'([a-z\-]+)_([a-zA-Z]+)_layers\d*_d\d*_edges_ratio_([.0-9\-]*)_.*iter(\d*)_([a-z_]+)_(pid.*|[0-9_]+)'
+EXPERIMENTS_REGEX = r'([A-Za-z\-]+)_([a-zA-Z]+)_layers\d*_d\d*_edges_ratio_([.0-9\-]*)_.*iter(\d*)_([a-z_]+)_(pid.*|[0-9_]+)'
 TITLE = None
 
 

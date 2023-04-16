@@ -15,8 +15,8 @@ from common.experiment.fit_experiment_base import ScoreInfo
 from common.train.callbacks import Callback
 from common.train.fit_output import FitOutput
 from common.train.trainer import Trainer
-from edges_removal.graph_model import GraphModel
 from edges_removal.edge_removal_datamodule import EdgeRemovalDataModule
+from edges_removal.graph_model import GraphModel
 from edges_removal.utils import GNN_TYPE
 from evaluation.torch_geometric_supervised_evaluator import TorchGeometricSupervisedValidationEvaluator, \
     TorchGeometricSupervisedTrainEvaluator
@@ -68,14 +68,20 @@ class EdgesRemovalExperiment(FitExperimentBase):
         return datamodule
 
     def create_model(self, datamodule: EdgeRemovalDataModule, config: dict, state: dict, logger: logging.Logger) -> nn.Module:
-        num_layers = config["num_layers"]
-        gnn_type = GNN_TYPE.from_string(config["model"])
         init_path = config['model_initialization_path'] if 'model_initialization_path' in config else None
-        model = GraphModel(gnn_type=gnn_type, num_layers=num_layers, dim0=datamodule.dim0, h_dim=config["hidden_dim"],
-                           out_dim=datamodule.out_dim, num_edges=datamodule.num_edges,
-                           layer_norm=not config["no_layer_norm"],
-                           is_ugs_mask_train=config['is_ugs_mask_train'],
-                           model_initialization_path=init_path)
+        num_layers = config["num_layers"]
+        if config['model'] == 'deeper':
+            import edges_removal.deeper_gcn.model as deeper_gcn
+            model = deeper_gcn.DeeperGCN(datamodule.dim0, datamodule.out_dim, datamodule.num_edges, num_layers=num_layers,
+                                         gcn_aggr="softmax_sg", t=0.1, is_ugs_mask_train=config['is_ugs_mask_train'],
+                                         model_initialization_path=init_path)
+        else:
+            gnn_type = GNN_TYPE.from_string(config["model"])
+            model = GraphModel(gnn_type=gnn_type, num_layers=num_layers, dim0=datamodule.dim0, h_dim=config["hidden_dim"],
+                               out_dim=datamodule.out_dim, num_edges=datamodule.num_edges,
+                               layer_norm=not config["no_layer_norm"],
+                               is_ugs_mask_train=config['is_ugs_mask_train'],
+                               model_initialization_path=init_path)
         return model
 
     def create_train_and_validation_evaluators(self, model: nn.Module, datamodule: EdgeRemovalDataModule,

@@ -21,12 +21,15 @@ class EdgeRemovalDataModule(DataModule):
         self.pin_memory = self.load_dataset_to_device is None
         self.dataset_name = dataset_name
 
-        if dataset_name in ['cora', 'citeseer', 'pubmed']:
+        if dataset_name == 'cora':
             self.train_dataset = torch_geometric.datasets.Planetoid(DATA_DOWNLOAD_FOLDER, dataset_name, split='public')
-        elif dataset_name in ['dblp', 'cora_ml']:
+        elif dataset_name == 'dblp':
             self.train_dataset = torch_geometric.datasets.CitationFull(DATA_DOWNLOAD_FOLDER, dataset_name)
-        elif dataset_name in ['ogbn-arxiv']:
-            import sklearn
+        elif dataset_name in ['chameleon', 'squirrel']:
+            self.train_dataset = torch_geometric.datasets.WikipediaNetwork(DATA_DOWNLOAD_FOLDER, dataset_name)
+        elif dataset_name == 'Computers':
+            self.train_dataset = torch_geometric.datasets.Amazon(DATA_DOWNLOAD_FOLDER, dataset_name)
+        elif dataset_name == 'ogbn-arxiv':
             from ogb.nodeproppred import PygNodePropPredDataset
             self.train_dataset = PygNodePropPredDataset(dataset_name, DATA_DOWNLOAD_FOLDER)
         else:
@@ -34,10 +37,11 @@ class EdgeRemovalDataModule(DataModule):
         self.num_vertices = self.train_dataset.data.x.shape[0]
 
         if train_fraction != -1:
-            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data['test_mask'] = self.generate_train_mask(train_frac_seed, train_fraction, val_fraction, self.num_vertices)
+            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data[
+                'test_mask'] = self.generate_train_mask(train_frac_seed, train_fraction, val_fraction, self.num_vertices)
         elif dataset_name == 'ogbn-arxiv':
-            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data['test_mask'] = self.generate_train_mask_by_year(2017, 2018, self.train_dataset.data.node_year)
-
+            self.train_dataset.data['train_mask'], self.train_dataset.data['val_mask'], self.train_dataset.data[
+                'test_mask'] = self.generate_train_mask_by_year(2017, 2018, self.train_dataset.data.node_year)
 
         self.rearrange_edges(edges_ratio, edges_remove_conf_file, device=load_dataset_to_device)
 
@@ -97,7 +101,7 @@ class EdgeRemovalDataModule(DataModule):
             all_edges_gpu = all_edges.cuda(device)
             mask_to_remove = torch.zeros(all_edges.shape[1], dtype=bool).cuda(device)
             for i in range(removed_edges.shape[1]):
-                removed_edge_i_mask = torch.all(removed_edges[:,i:i+1] == all_edges_gpu, axis=0)
+                removed_edge_i_mask = torch.all(removed_edges[:, i:i + 1] == all_edges_gpu, axis=0)
                 mask_to_remove = torch.logical_or(mask_to_remove, removed_edge_i_mask)
             mask_to_remove = mask_to_remove.cpu()
 
