@@ -82,7 +82,7 @@ python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/arxiv_gcn_ugs_mask_generation_config.json
 ```
 - The ```plan_config_path``` argument points to a configuration file with relevant hyperparameters, which are documented in ```common/experiment/fit_experiment_base.py``` and ```edges_removal/edges_removal_experiment.py```.
-- To create the UGS edge removal orders for other datasets and models, use the appropriate configuration files in ```edges_removal/experiments_plans``` named ```edges_removal/experiments_plans/<dataset>_<model>_ugs_mask_generation_config.json```.
+- To create the UGS edge removal orders for other datasets and models, use the appropriate configuration files in ```edges_removal/experiments_plans``` named ```<dataset>_<model>_ugs_mask_generation_config.json```.
 - Creates ten removal orders for each dataset.
 - It is recommended to use a GPU by adding an available gpu id to the ```gpu_ids_pool``` field in the configuration files.
 
@@ -95,7 +95,7 @@ python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_
 ```
 
 - The ```plan_config_path``` argument points to a configuration file with relevant hyperparameters, which are documented in ```common/experiment/fit_experiment_base.py``` and ```edges_removal/edges_removal_experiment.py```.
-- To run experiments for other datasets and models, use the appropriate configuration files in ```edges_removal/experiments_plans``` named ```edges_removal/experiments_plans/<dataset>_<model>_removal_experiments_config.json```.
+- To run experiments for other datasets and models, use the appropriate configuration files in ```edges_removal/experiments_plans``` named ```<dataset>_<model>_removal_experiments_config.json```.
 - It is recommended to use GPUs by adding gpu ids to ```gpu_ids_pool``` and setting ```num_parallel``` to more than one in the configuration files.
 
 ### 2.3. Plotting Results
