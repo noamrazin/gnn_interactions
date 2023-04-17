@@ -75,7 +75,7 @@ python ./edges_removal/call_removal_scripts.py --dataset ogbn-arxiv --output_fol
 - Use the ```-h``` flag for information on more customizable run arguments.
 
 #### Adaptation of UGS ([Chen et al. 2021](https://arxiv.org/abs/2102.06790))
-The following commands create the edge removal orders, per dataset, for a variant of the UGS algorithm from [Chen et al. 2021](https://arxiv.org/abs/2102.06790) &mdash; see the [paper](https://arxiv.org/abs/2211.16494) for more details.
+The following commands create the edge removal orders using GCN, per dataset, for a variant of the UGS algorithm from [Chen et al. 2021](https://arxiv.org/abs/2102.06790) &mdash; see the [paper](https://arxiv.org/abs/2211.16494) for more details.
 ```
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/cora_gcn_ugs_mask_generation_config.json
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/dblp_gcn_ugs_mask_generation_config.json
@@ -87,7 +87,7 @@ python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_
 - It is recommended to use a GPU by adding an available gpu id to the ```gpu_ids_pool``` field in the configuration files.
 
 ### 2.2. Running Experiments
-The following commands train and evaluate graph neural networks over the Cora and DBLP datasets across edge sparsity levels, with edges removed for each algorithm according to the order computed in previous step.
+The following commands train and evaluate GCN over the Cora, DBLP, and OGBN-ArXiv datasets across edge sparsity levels, with edges removed for each algorithm according to the order computed in previous step.
 ```
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/cora_gcn_removal_experiments_config.json
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/dblp_gcn_removal_experiments_config.json
