@@ -9,9 +9,9 @@
   "configurations": [
     {
       "base_config": {
-        "experiment_series": "cora_gcn",
+        "experiment_series": "computers_gcn",
         "experiment_name": "{dataset_name}_{model}_layers{num_layers}_d{hidden_dim}_edges_ratio_{edges_ratio}_iter{iter}_{removal_method}_train",
-        "dataset_name": "Computers",
+        "dataset_name": "computers",
         "model": "GCN",
         "is_ugs_mask_train": true,
         "removal_method": "ugs",

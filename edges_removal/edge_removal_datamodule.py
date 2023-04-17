@@ -27,7 +27,7 @@ class EdgeRemovalDataModule(DataModule):
             self.train_dataset = torch_geometric.datasets.CitationFull(DATA_DOWNLOAD_FOLDER, dataset_name)
         elif dataset_name in ['chameleon', 'squirrel']:
             self.train_dataset = torch_geometric.datasets.WikipediaNetwork(DATA_DOWNLOAD_FOLDER, dataset_name)
-        elif dataset_name == 'Computers':
+        elif dataset_name == 'computers':
             self.train_dataset = torch_geometric.datasets.Amazon(DATA_DOWNLOAD_FOLDER, dataset_name)
         elif dataset_name == 'ogbn-arxiv':
             from ogb.nodeproppred import PygNodePropPredDataset

@@ -13,7 +13,7 @@ def main(dataset_name, output_path):
         dataset = torch_geometric.datasets.CitationFull(DATA_DOWNLOAD_FOLDER, dataset_name)
     elif dataset_name in ['chameleon', 'squirrel']:
         dataset = torch_geometric.datasets.WikipediaNetwork(DATA_DOWNLOAD_FOLDER, dataset_name)
-    elif dataset_name == 'Computers':
+    elif dataset_name == 'computers':
         dataset = torch_geometric.datasets.Amazon(DATA_DOWNLOAD_FOLDER, dataset_name)
     elif dataset_name == 'ogbn-arxiv':
         from ogb.nodeproppred import PygNodePropPredDataset

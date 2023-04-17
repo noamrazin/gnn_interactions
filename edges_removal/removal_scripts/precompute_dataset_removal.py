@@ -22,7 +22,7 @@ def read_edges_and_num_vertices(dataset_name):
         dataset = torch_geometric.datasets.CitationFull(DATASETS_FOLDER, dataset_name)
     elif dataset_name in ['chameleon', 'squirrel']:
         dataset = torch_geometric.datasets.WikipediaNetwork(DATASETS_FOLDER, dataset_name)
-    elif dataset_name == 'Computers':
+    elif dataset_name == 'computers':
         dataset = torch_geometric.datasets.Amazon(DATASETS_FOLDER, dataset_name)
     elif dataset_name == "ogbn-arxiv":
         from ogb.nodeproppred import PygNodePropPredDataset
@@ -130,10 +130,10 @@ def main():
         'removed_edges': removed_edges
     }
 
-    with open(args.output_path, 'w') as f:
+    with open(output_path, 'w') as f:
         json.dump(output_data, f, indent=4)
 
-    print(f"Created edge removal order file at: {args.output_path}")
+    print(f"Created edge removal order file at: {output_path}")
 
 
 if __name__ == '__main__':

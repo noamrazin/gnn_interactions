@@ -1,17 +1,20 @@
+import logging
 import os
+
 import torch
-from edges_removal.deeper_gcn.torch_vertex import GENConv
-from edges_removal.deeper_gcn.torch_nn import norm_layer
-import edges_removal.ugs_utils as ugs_utils
 import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
-import logging
+
+import edges_removal.ugs_utils as ugs_utils
+from edges_removal.deeper_gcn.torch_nn import norm_layer
+from edges_removal.deeper_gcn.torch_vertex import GENConv
 
 
 class DeeperGCN(torch.nn.Module):
-    # def __init__(self, args):
+
     def __init__(self, in_channels, num_tasks, num_edges, num_layers=3, dropout=0.5, block='res+', hidden_channels=128, conv='gen', gcn_aggr='max',
-            t=1.0, learn_t=False, p=1.0, learn_p=False, y=0.0, learn_y=False, msg_norm=False, learn_msg_scale=False, norm='batch', mlp_layers=1, is_ugs_mask_train:bool=False, model_initialization_path=None):
+                 t=1.0, learn_t=False, p=1.0, learn_p=False, y=0.0, learn_y=False, msg_norm=False, learn_msg_scale=False, norm='batch', mlp_layers=1,
+                 is_ugs_mask_train: bool = False, model_initialization_path=None):
         super(DeeperGCN, self).__init__()
 
         self.num_layers = num_layers
@@ -81,7 +84,7 @@ class DeeperGCN(torch.nn.Module):
             self.norms.append(norm_layer(norm, hidden_channels))
 
         self.is_adj_mask = is_ugs_mask_train
-        self.adj_mask_train = torch.nn.Parameter(ugs_utils.mask_init(num_edges//2), requires_grad=True)
+        self.adj_mask_train = torch.nn.Parameter(ugs_utils.mask_init(num_edges // 2), requires_grad=True)
 
         if model_initialization_path:
             if os.path.exists(model_initialization_path):
@@ -90,7 +93,6 @@ class DeeperGCN(torch.nn.Module):
                 self.load_state_dict(state_dict)
             else:
                 torch.save(self.state_dict(), model_initialization_path)
-
 
     def forward(self, data):
         x, edge_index, batch = data.x, data.edge_index, data.batch
@@ -156,7 +158,7 @@ class DeeperGCN(torch.nn.Module):
 
         h = self.node_pred_linear(h)
 
-        return h # torch.log_softmax(h, dim=-1)
+        return h  # torch.log_softmax(h, dim=-1)
 
     def print_params(self, epoch=None, final=False):
 
@@ -195,4 +197,3 @@ class DeeperGCN(torch.nn.Module):
                 print('Final s {}'.format(ss))
             else:
                 logging.info('Epoch {}, s {}'.format(epoch, ss))
-

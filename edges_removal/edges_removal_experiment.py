@@ -70,7 +70,7 @@ class EdgesRemovalExperiment(FitExperimentBase):
     def create_model(self, datamodule: EdgeRemovalDataModule, config: dict, state: dict, logger: logging.Logger) -> nn.Module:
         init_path = config['model_initialization_path'] if 'model_initialization_path' in config else None
         num_layers = config["num_layers"]
-        if config['model'] == 'deeper':
+        if config['model'] == 'resgcn':
             import edges_removal.deeper_gcn.model as deeper_gcn
             model = deeper_gcn.DeeperGCN(datamodule.dim0, datamodule.out_dim, datamodule.num_edges, num_layers=num_layers,
                                          gcn_aggr="softmax_sg", t=0.1, is_ugs_mask_train=config['is_ugs_mask_train'],

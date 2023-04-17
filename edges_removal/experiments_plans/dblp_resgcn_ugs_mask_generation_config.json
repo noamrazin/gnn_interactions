@@ -9,16 +9,16 @@
   "configurations": [
     {
       "base_config": {
-        "experiment_series": "cora_deeper",
+        "experiment_series": "dblp_resgcn",
         "experiment_name": "{dataset_name}_{model}_layers{num_layers}_d{hidden_dim}_edges_ratio_{edges_ratio}_iter{iter}_{removal_method}_train",
-        "dataset_name": "cora",
-        "model": "deeper",
+        "dataset_name": "dblp",
+        "model": "resgcn",
         "is_ugs_mask_train": true,
         "removal_method": "ugs",
         "hidden_dim": 64,
         "ugs_s1": 0.0001,
         "lr": 0.0005,
-        "weight_decay": 0.001,
+        "weight_decay": 0.0001,
         "use_test_dataset": false,
         "random_seed": -1,
         "gpu_ids": [],

@@ -64,12 +64,13 @@ python is_same_class_accuracy_printer.py --experiments_dir outputs/gisc
 #### Random, Spectral, and Walk Index Sparsification
 The following commands produce files with edge removal orders for the specified algorithms, per dataset.
 ```
-python ./edges_removal/call_removal_scripts.py --dataset cora --output_folder ./outputs/cora_gcn/ --gpu_id 0 random spectral wis one_wis
-python ./edges_removal/call_removal_scripts.py --dataset dblp --output_folder ./outputs/dblp_gcn/ random spectral one_wis 
-python ./edges_removal/call_removal_scripts.py --dataset ogbn-arxiv --output_folder ./outputs/ogbn-arxiv_gcn/ random spectral one_wis --julia_spectral
+python ./edges_removal/call_removal_scripts.py --dataset cora --output_folder ./outputs/edges_removal/ --gpu_id 0 random spectral wis one_wis
+python ./edges_removal/call_removal_scripts.py --dataset dblp --output_folder ./outputs/edges_removal/ random spectral one_wis 
+python ./edges_removal/call_removal_scripts.py --dataset ogbn-arxiv --output_folder ./outputs/edges_removal/ random spectral one_wis --julia_spectral
 ```
 - Supported algorithms are random pruning ("random"), the spectral sparsification algorithm from [Spielman & Srivastava 2011](https://arxiv.org/abs/0803.0929) ("spectral"), (L - 1)-WIS ("wis") and 1-WIS ("one_wis"). The L used for (L - 1)-WIS is determined by the ```gnn_depth``` argument (default is 3).
 - The ```gpu_id``` parameter specifies an available GPU to use for speeding up (L - 1)-WIS, otherwise CPU is used.
+- If the ```julia_spectral``` flag is used, the spectral sparsification algorithm will be run using the Julia implementation from [Laplacians.jl](https://github.com/danspielman/Laplacians.jl) (as opposed to a Python one). This is necessary only for the larger scale OGBN-ArXiv dataset.
 - For randomized algorithms (random and spectral sparsification), ten removal orders are computed for each dataset.
 - Use the ```-h``` flag for information on more customizable run arguments.
 
@@ -81,6 +82,7 @@ python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_
 python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_plans/arxiv_gcn_ugs_mask_generation_config.json
 ```
 - The ```plan_config_path``` argument points to a configuration file with relevant hyperparameters, which are documented in ```common/experiment/fit_experiment_base.py``` and ```edges_removal/edges_removal_experiment.py```.
+- To create the UGS edge removal orders for other datasets and models, use the appropriate configuration files in ```edges_removal/experiments_plans``` named ```edges_removal/experiments_plans/<dataset>_<model>_ugs_mask_generation_config.json```.
 - Creates ten removal orders for each dataset.
 - It is recommended to use a GPU by adding an available gpu id to the ```gpu_ids_pool``` field in the configuration files.
 
@@ -93,6 +95,7 @@ python edge_removal_plan_runner.py --plan_config_path edges_removal/experiments_
 ```
 
 - The ```plan_config_path``` argument points to a configuration file with relevant hyperparameters, which are documented in ```common/experiment/fit_experiment_base.py``` and ```edges_removal/edges_removal_experiment.py```.
+- To run experiments for other datasets and models, use the appropriate configuration files in ```edges_removal/experiments_plans``` named ```edges_removal/experiments_plans/<dataset>_<model>_removal_experiments_config.json```.
 - It is recommended to use GPUs by adding gpu ids to ```gpu_ids_pool``` and setting ```num_parallel``` to more than one in the configuration files.
 
 ### 2.3. Plotting Results

@@ -4,16 +4,16 @@
   "skip": 0,
   "repetitions": 1,
   "largest": true,
-  "multiprocess": true,
+  "multiprocess": false,
   "num_parallel": 1,
   "gpu_ids_pool": [],
   "configurations": [
     {
       "base_config": {
-        "experiment_series": "dblp_deeper",
+        "experiment_series": "dblp_resgcn",
         "experiment_name": "{dataset_name}_{model}_layers{num_layers}_d{hidden_dim}_edges_ratio_{edges_ratio}_iter{iter}_{removal_method}",
         "dataset_name": "dblp",
-        "model": "deeper",
+        "model": "resgcn",
         "is_ugs_mask_train": false,
         "removal_method": "ugs",
         "hidden_dim": 64,
@@ -73,10 +73,10 @@
     },
     {
       "base_config": {
-        "experiment_series": "dblp_deeper",
+        "experiment_series": "dblp_resgcn",
         "experiment_name": "{dataset_name}_{model}_layers{num_layers}_d{hidden_dim}_edges_ratio_{edges_ratio}_iter{iter}_{removal_method}",
         "dataset_name": "dblp",
-        "model": "deeper",
+        "model": "resgcn",
         "is_ugs_mask_train": false,
         "hidden_dim": 64,
         "lr": 0.0005,
@@ -120,7 +120,7 @@
         "train_fraction_seed": 1,
         "no_layer_norm": false,
         "no_residual": true,
-        "edges_removal_conf": "./outputs/{experiment_series}/{dataset_name}_remove_by_{removal_method}_{iter}.json",
+        "edges_removal_conf": "./outputs/edges_removal/{dataset_name}_remove_by_{removal_method}_{iter}.json",
         "load_dataset_to_gpu": true,
         "dataloader_num_workers": 0,
         "batch_size": -1,
@@ -135,10 +135,10 @@
     },
     {
       "base_config": {
-        "experiment_series": "dblp_deeper",
+        "experiment_series": "dblp_resgcn",
         "experiment_name": "{dataset_name}_{model}_layers{num_layers}_d{hidden_dim}_edges_ratio_{edges_ratio}_iter{iter}_{removal_method}",
         "dataset_name": "dblp",
-        "model": "deeper",
+        "model": "resgcn",
         "is_ugs_mask_train": false,
         "hidden_dim": 64,
         "lr": 0.0005,
@@ -182,7 +182,7 @@
         "train_fraction_seed": 1,
         "no_layer_norm": false,
         "no_residual": true,
-        "edges_removal_conf": "./outputs/{experiment_series}/{dataset_name}_remove_by_{removal_method}.json",
+        "edges_removal_conf": "./outputs/edges_removal/{dataset_name}_remove_by_{removal_method}.json",
         "load_dataset_to_gpu": true,
         "dataloader_num_workers": 0,
         "batch_size": -1,
