@@ -4,7 +4,7 @@
   "skip": 0,
   "repetitions": 1,
   "largest": true,
-  "multiprocess": true,
+  "multiprocess": false,
   "num_parallel": 1,
   "gpu_ids_pool": [],
   "configurations": [
