@@ -4,7 +4,7 @@ from typing import Union
 import torch
 from torch import Tensor
 from torch import nn
-from torch_geometric.nn import GCNConv, GatedGraphConv, GINConv, GATConv, SAGEConv
+from torch_geometric.nn import GCNConv, GINConv
 from torch_geometric.typing import Adj, OptPairTensor, OptTensor, Size
 from torch_geometric.utils import add_remaining_self_loops
 from torch_geometric.utils.num_nodes import maybe_num_nodes
@@ -142,4 +142,4 @@ class GNN_TYPE(Enum):
             return GCNAbsNormConv(in_channels=in_dim, out_channels=out_dim)
         elif self is GNN_TYPE.GIN:
             return GINConvWithWeights(nn.Sequential(nn.Linear(in_dim, out_dim), nn.BatchNorm1d(out_dim), nn.ReLU(),
-                                                    nn.Linear(out_dim, out_dim), nn.BatchNorm1d(out_dim), nn.ReLU()))
+                                                    nn.Linear(out_dim, out_dim), nn.BatchNorm1d(out_dim), nn.ReLU()), train_eps=True)
