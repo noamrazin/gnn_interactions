@@ -1,5 +1,5 @@
-# On the Ability of Graph Neural Networks to Model Interactions Between Vertices
-Code implementation for the experiments in [On the Ability of Graph Neural Networks to Model Interactions Between Vertices](https://arxiv.org/abs/2211.16494), based on the [PyTorch](https://pytorch.org/) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/) frameworks.
+# On the Ability of Graph Neural Networks to Model Interactions Between Vertices (NeurIPS 2023)
+Code implementation for the experiments in [On the Ability of Graph Neural Networks to Model Interactions Between Vertices](https://arxiv.org/abs/2211.16494) (NeurIPS 2023), based on the [PyTorch](https://pytorch.org/) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/) frameworks.
 
 <br>
 <p align="center">
@@ -117,10 +117,10 @@ Example plots:
 
 For citing the paper you can use:
 ```
-@article{razin2022ability,
+@inproceedings{razin2023ability,
   title={On the Ability of Graph Neural Networks to Model Interactions Between Vertices},
   author={Razin, Noam and Verbin, Tom and Cohen, Nadav},
-  journal={arXiv preprint arXiv:2211.16494},
-  year={2022}
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2023}
 }
 ```
