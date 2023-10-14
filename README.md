@@ -9,7 +9,7 @@ Code implementation for the experiments in [On the Ability of Graph Neural Netwo
 ## Walk Index Sparsification (WIS)
 Implementations for the (L - 1)-WIS edge sparsification algorithm and its efficient 1-WIS variant, described by Algorithms 1 and 2 in the [paper](https://arxiv.org/abs/2211.16494), can be found at [```edges_removal/walk_index_sparsification.py```](edges_removal/walk_index_sparsification.py). 
 
-> :ledger: A quickstart Jupyter Notebook for using 1-WIS can be found [here](.wis_quickstart_example.ipynb).
+> :ledger: A quickstart Jupyter Notebook for using 1-WIS can be found [here](wis_quickstart_example.ipynb).
 
 <br>
 <p align="center">
